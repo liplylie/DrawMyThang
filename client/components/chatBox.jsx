@@ -58,9 +58,8 @@ export default class ChatBox extends React.Component {
         </div>
         <div id="form">
           <input id="m" onChange={this.handleText} onKeyDown={this.handleEnterKey} />
-            
           <button id ="chatButton"onClick={()=>{
-            this.handleChat();
+            this.handleChat(); 
             }
           }> Send</button>
         </div>
