@@ -6,6 +6,7 @@ class Canvas extends React.Component {
     super(props);
     this.state = {
       isArtist: false,
+      color: 'black',
     }
     this.drawLine = this.drawLine.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
@@ -15,6 +16,7 @@ class Canvas extends React.Component {
     this.throttle = this.throttle.bind(this);
     this.isArtist = this.isArtist.bind(this);
     this.wipeCanvas = this.wipeCanvas.bind(this);
+    this.handleColorChange = this.handleColorChange.bind(this)
     // this.handleClick = this.handleClick.bind(this);
   }
 
@@ -50,7 +52,7 @@ class Canvas extends React.Component {
     this.context.beginPath();
     this.context.moveTo(x0, y0);
     this.context.lineTo(x1, y1);
-    this.context.strokeStyle = 'black';
+    this.context.strokeStyle = this.state.color;
     this.context.lineWidth = 2;
     this.context.stroke();
     this.context.closePath();
@@ -60,6 +62,7 @@ class Canvas extends React.Component {
         y0: y0,
         x1: x1,
         y1: y1, 
+        color: this.state.color,
       });
     }
   }
@@ -93,6 +96,10 @@ class Canvas extends React.Component {
   }
 
   onDrawingEvent(data) {
+    console.log(data, 'onDrawingEvent data')
+    this.setState({
+      color:data.color
+    }) 
     this.drawLine(data.x0, data.y0, data.x1, data.y1);
   }
 
@@ -112,9 +119,23 @@ class Canvas extends React.Component {
     };
   }
 
+  handleColorChange(color){
+    console.log(color, 'color in colore')
+    this.state.color = color;
+  }
+
   render() {
     return (
+        <div id="wordCanvasDisplay">
       <canvas id="draw-comp"></canvas> 
+        <div id="canvasColors">
+          <div id="changeColor">Change Color: </div>
+          <div className="color red" onClick={()=>{this.handleColorChange('red')}}></div>
+          <div className="color blue" onClick={()=>{this.handleColorChange('blue')}}></div>
+          <div className="color black" onClick={()=>{this.handleColorChange('black')}}></div>
+          <div className="color yellow" onClick={()=>{this.handleColorChange('yellow')}}></div>
+        </div>
+      </div>
     );
   }
 };
