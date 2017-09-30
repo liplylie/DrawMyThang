@@ -27,6 +27,7 @@ class App extends React.Component {
       authenticated: false,
       loading: true,
       socket: socket('http://localhost:8080'),
+      login: false,
     };
   }
 
@@ -71,6 +72,15 @@ class App extends React.Component {
         </div>
       );
     }
+
+    // if (this.state.login === false) {
+    //   return (
+    //     <div >
+    //       <h3>Loading</h3>
+    //       <Spinner /> 
+    //     </div>
+    //   );
+    // }
 
     return (
       <div id='firstDiv'>
