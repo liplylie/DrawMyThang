@@ -5,18 +5,22 @@ import socket from 'socket.io-client';
 import { app } from '../../env/base.jsx';
 
 class Logout extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    console.log(props, 'logoutprops bro')
     this.state = {
       redirect: false,
     };
   }
 
+
   componentWillMount() {
     app.auth().signOut().then((user) => {
       // console.log('disconnect ', user);
       console.log('disconnect ', this.props.state.user);
+      console.log('props in logout', this.props)
       this.props.state.socket.emit('disconnect user', this.props.state.user);
+      this.props.log('false')
       this.setState({ redirect: true });
     });
   }

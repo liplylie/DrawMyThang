@@ -16,6 +16,7 @@ const loginStyles = {
 class Login extends Component {
   constructor(props) {
     super(props)
+    console.log(props, 'props in login')
     this.authWithGithub = this.authWithGithub.bind(this);
     this.authWithEmailPassword = this.authWithEmailPassword.bind(this);
 
@@ -46,6 +47,7 @@ class Login extends Component {
           this.setState({
             user: user_id,
           });
+          this.props.log(true);
           this.props.state.socket.emit('connect user', user_id);
           this.setState({ redirect: true });
         }

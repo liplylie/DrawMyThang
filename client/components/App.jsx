@@ -29,6 +29,7 @@ class App extends React.Component {
       socket: socket('http://localhost:8080'),
       login: false,
     };
+    this.changeLogInStatus = this.changeLogInStatus.bind(this);
   }
 
   componentDidMount() {
@@ -63,6 +64,13 @@ class App extends React.Component {
     this.removeAuthListener();
   }
 
+  changeLogInStatus(status){
+    console.log(status, 'log status')
+    this.setState({
+      login: status
+    })
+  }
+
   render() {
     if (this.state.loading === true) {
       return (
@@ -73,14 +81,24 @@ class App extends React.Component {
       );
     }
 
-    // if (this.state.login === false) {
-    //   return (
-    //     <div >
-    //       <h3>Loading</h3>
-    //       <Spinner /> 
-    //     </div>
-    //   );
-    // }
+    if (this.state.login === false) {
+      return (
+        <div >
+          <BrowserRouter>
+          <div>
+            <Header authenticated={this.state.authenticated} />
+            <div className="main-content"  >
+              <div className="workspace" >
+                <Route path="/login" render={() => <Login state={this.state} log={this.changeLogInStatus}/>} />
+                <Route path="/logout" render={() => <Logout state={this.state} log={this.changeLogInStatus} />} />
+              </div>
+            </div>
+          </div>
+        </BrowserRouter>
+         <h3>Log in </h3>
+        </div>
+      );
+    }
 
     return (
       <div id='firstDiv'>
@@ -89,8 +107,8 @@ class App extends React.Component {
             <Header authenticated={this.state.authenticated} />
             <div className="main-content"  >
               <div className="workspace" >
-                <Route path="/login" render={() => <Login state={this.state} />} />
-                <Route path="/logout" render={() => <Logout state={this.state} />} />
+                <Route path="/login" render={() => <Login state={this.state} log={this.changeLogInStatus}/>} />
+                <Route path="/logout" render={() => <Logout state={this.state} log={this.changeLogInStatus}/>} />
               </div>
             </div>
           </div>
@@ -102,7 +120,7 @@ class App extends React.Component {
         </section>
       <div id="wordCanvasDisplay">
         <div id="timerWordDisplay">
-          <GamePlayTimer socket={this.state.socket}/>
+          <GamePlayTimer socket={this.state.socket} login={this.state.login}/>
           <Worddisplay socket={this.state.socket} uid={this.state.user.uid} />
         </div>
           <Canvas socket={this.state.socket} uid={this.state.user.uid}/>
